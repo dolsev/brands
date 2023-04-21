@@ -8,7 +8,7 @@ const Products = () => {
     const [selectedBrands, setSelectedBrands] = useState(initialBrands);
     const [preselectedBrands, setPreselectedBrands] = useState(selectedBrands);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(6);
+    const itemsPerPage = 6
 
     const handleChange = (e)=>{
         const value = e.target.value
