@@ -6,14 +6,12 @@ function Card({item}) {
         <div className='card'>
             <Link className='link' to={`/product/${item.id}`}>
             <div className='image'>
-                {item.isNew&&<span>New Collection</span>}
-                <img src={item.img} alt='' className='mainImg'/>
-                <img src={item.img2} alt='' className='secondImg'/>
+                <img src={item.image} alt={item.title} className='mainImg'/>
+                <img src={item.image} alt={item.title} className='secondImg'/>
             </div>
             <h2>{item.title}</h2>
             <div className='prices'>
-                <h3>{item.price} ₽</h3>
-                {item.oldPrice?<h3>{item.oldPrice} ₽</h3>:null}
+                <h3>{item.regular_price.value} {item.regular_price.currency}</h3>
             </div>
             </Link>
         </div>

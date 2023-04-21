@@ -1,41 +1,21 @@
-
-
 .navbar{
   height: 80px;
   .wrapper{
     padding: 10px 30px;
     display: flex;
     justify-content: space-between;
-    .disabled-link{
-        color: currentColor;
-        cursor: default;
-        opacity: 0.5;
-        text-decoration: none;
-    }
-    .item{
-      display: flex;
-      align-items: center;
-      font-size:18px;
-      .image{
-        height: 20px;
-        border: 1px solid black;
-      }
-    }
+    align-items: center;
     .left{
-      display: flex;
-      align-items:center;
-      gap:25px;
-
-    }
-    .center{
-      font-size:30px;
-      letter-spacing: 2px;
-
+      .logo{
+        font-size: 24px;
+        font-weight: bold;
+        color: black;
+        text-decoration: none;
+      }
     }
     .right{
       display: flex;
       align-items: center;
-      gap:25px;
 
       .icons{
         display: flex;
@@ -57,80 +37,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-          }
-        }
-      }
-    }
-
-  }
-}
-@media screen and (max-width: 1200px) {
-.navbar{
-  .wrapper{
-    .center{
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: normal;
-    }
-  }
-}
-}
-@media screen and (max-width: 1050px) {
-  .navbar{
-    height: 60px;
-    .wrapper{
-      justify-content: space-evenly;
-      padding:10px 10px;
-      .item{
-        .image{
-        }
-      }
-      .item.disabled-link{
-        display: none;
-      }
-      .left{
-        gap:10px;
-
-        .item{
-          .link{
-            font-size: 12px;
-          }
-        }
-
-      }
-      .center{
-        font-size: 14px;
-        letter-spacing: normal;
-        margin: 0 10px;
-        font-weight: 700;
-      }
-      .right{
-        gap:10px;
-        .list{
-          .card{
-        width:150px;
-
-        .item{
-          .link{
-            font-size: 10px;
-          }
-        }
-        .icons{
-          gap:5px;
-          .icon{
-            height: 12px;
-          }
-          .cartIcon{
-            bottom:5px;
-            span{
-              font-size: 7px;
-              width:10px;
-              height: 10px;
-              right: -1px;
-              top:-1px;
-            }
-          }
-        }
           }
         }
       }

@@ -1,63 +1,76 @@
 import React, {useState} from 'react';
 import './Products.scss'
-import {useParams} from "react-router-dom";
 import List from "../../components/List/List";
-import dataTable from "../../data";
+import productsData from '../../assets/products.json';
+import brandsData from '../../assets/brands.json';
 const Products = () => {
-    const catId=parseInt(useParams().id)
-    const[maxPrice,setMaxPrice] = useState(130000)
-    const [selectedSubCats, setSelectedSubcats] = useState(['table-set','kitchen-set','sofas','bed','chair','table'])
+    const initialBrands = [...brandsData.map(brand=>(brand.id).toString())];
+    const [selectedBrands, setSelectedBrands] = useState(initialBrands);
+    const [preselectedBrands, setPreselectedBrands] = useState(selectedBrands);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(6);
+
     const handleChange = (e)=>{
         const value = e.target.value
         const isChecked = e.target.checked
-        setSelectedSubcats(isChecked?[...selectedSubCats,value]:selectedSubCats.filter(item=>item!==value))
+        setPreselectedBrands(isChecked?[...preselectedBrands,value]:preselectedBrands.filter(item=>item!==value))
     }
+
+    const handleFilter = ()=>{
+        setSelectedBrands(preselectedBrands)
+    }
+
+    const resetFilters = () => {
+        setPreselectedBrands(initialBrands);
+        setSelectedBrands(initialBrands);
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach((checkbox) => {
+            checkbox.checked = true;
+        });
+    }
+    const handleLoadMore = () => {
+        setCurrentPage(currentPage + 1);
+    };
+    const handleGoBack = () => {
+        setCurrentPage(currentPage -1);
+    };
 
     return (
         <div className='products'>
             <div className='left'>
                 <div className='filterItem'>
-                    <h2>Product Categories</h2>
-                    <div className='inputItem'>
-                        <input type='checkbox' defaultChecked='checked' id='table' value={'table'} onChange={handleChange}/>
-                        <label htmlFor='table'>Tables</label>
-                    </div>
-                    <div className='inputItem'>
-                        <input type='checkbox' defaultChecked='checked' id='chair' value={'chair'} onChange={handleChange}/>
-                        <label htmlFor='chair'>Chairs</label>
-                    </div>
-                    <div className='inputItem'>
-                        <input type='checkbox' defaultChecked='checked' id='bed' value={'bed'} onChange={handleChange}/>
-                        <label htmlFor='bed'>Beds</label>
-                    </div>
-                    <div className='inputItem'>
-                        <input type='checkbox' defaultChecked='checked' id='sofas' value={'sofas'} onChange={handleChange}/>
-                        <label htmlFor='sofas'>Sofas</label>
-                    </div>
-                    <div className='inputItem'>
-                        <input type='checkbox' defaultChecked='checked' id='kitchen-set' value={'kitchen-set'} onChange={handleChange}/>
-                        <label htmlFor='kitchen-set'>Kitchen sets</label>
-                    </div>
-                    <div className='inputItem'>
-                        <input type='checkbox' defaultChecked='checked' id='table-set' value={'table-set'} onChange={handleChange}/>
-                        <label htmlFor='table-set'>Table sets</label>
-                    </div>
+                    <h2>Brands</h2>
+                    {
+                        brandsData.map(brand=>{
+                            return(
+                                <div className='inputItem'>
+                                    <label className="container">
+                                    <input type='checkbox' defaultChecked='checked' id={brand.id} value={brand.id} onChange={handleChange}/>
+                                    <label htmlFor='table'>{brand.title}</label>
+                                        <span className="checkmark"></span>
+                                    </label>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
-                <div className='filterItem'>
-                    <h2>Filter by price</h2>
-                    <div className='inputItem'>
-                        <span>0</span>
-                        <input type='range' min={0} max={130000}
-                               onChange={(e)=>setMaxPrice(parseInt(e.target.value))}/>
-                        <span>{maxPrice}</span>
-                    </div>
+                <div className='buttons'>
+                    <button className='apply' onClick={handleFilter}>Apply Filter</button>
+                    <button className='reset' onClick={resetFilters}>✕ <span>Reset</span></button>
                 </div>
-
             </div>
             <div className='right'>
-                <img className='catImg' src='https://images.unsplash.com/photo-1614061340739-8c58cc239aa1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80' alt=''/>
-            <List data={dataTable} catId={catId} maxPrice={maxPrice} selectedSubCats={selectedSubCats}/>
+                <List data={productsData} selectedBrands={selectedBrands} currentPage={currentPage} itemsPerPage={itemsPerPage} />
+            <div className='buttons'>
+                {currentPage * itemsPerPage < productsData.length && (
+                    <button className='navigation' onClick={handleLoadMore}>Load More</button>
+                )}
+                {currentPage * itemsPerPage > productsData.length && (
+                    <button className='navigation' onClick={handleGoBack}>Go Back</button>
+                )}
             </div>
+            </div>
+
         </div>
     );
 };
